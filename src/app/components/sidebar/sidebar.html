@@ -1,0 +1,24 @@
+<aside class="sidebar left sidebar-menu-bg sidebar-xs toggled">
+    <div class="sidebar-inner">
+        <ul class="menu">
+            <li ng-click="$ctrl.toggleItem()">
+                <a ui-sref="app.home">Home</a>
+            </li>
+            <li ng-click="$ctrl.toggleItem()">
+                <a ui-sref="app.about">About</a>
+            </li>
+            <li ng-click="$ctrl.toggleItem()">
+                <a ui-sref="app.contact">Contact</a>
+            </li>
+            <li class="sub-menu">
+                <a href="" ng-click="$ctrl.toggleItem()">
+                    <i class="ti-angle-right menu-arrow"></i> Headers</a>
+                <ul>
+                    <li><a data-ng-click="mactrl.sidebarStat($event)" data-ui-sref="headers.textual-menu" data-ui-sref-active="active" class="active" href="#/headers/textual-menu">Textual menu</a></li>
+                    <li><a data-ng-click="mactrl.sidebarStat($event)" data-ui-sref="headers.image-logo" data-ui-sref-active="active" href="#/headers/image-logo">Image logo</a></li>
+                    <li><a data-ng-click="mactrl.sidebarStat($event)" data-ui-sref="headers.mainmenu-on-top" data-ui-sref-active="active" href="#/headers/mainmenu-on-top">Mainmenu on top</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</aside>
