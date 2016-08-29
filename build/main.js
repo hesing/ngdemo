@@ -36382,6 +36382,10 @@ require('./layout');
 
 require('./components');
 
+require('./filters');
+
+require('./services');
+
 require('./home');
 
 require('./about');
@@ -36396,9 +36400,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 
 // Import our app config files
-var requires = ['ui.router', 'templates', 'app.layout', 'app.components', 'app.home', 'app.about', 'app.contact'];
+var requires = ['ui.router', 'templates', 'app.layout', 'app.components', 'app.filters', 'app.services', 'app.home', 'app.about', 'app.contact'];
 
 // Mount on window for testing
+
+
+// routes
 
 // Import our app functionaity
 window.app = _angular2.default.module('app', requires);
@@ -36413,7 +36420,7 @@ _angular2.default.bootstrap(document, ['app'], {
   strictDi: true
 });
 
-},{"./about":5,"./components":7,"./config/app.config":9,"./config/app.constants":10,"./config/app.run":11,"./config/app.templates":12,"./contact":14,"./home":17,"./layout":20,"angular":3,"angular-ui-router":1}],7:[function(require,module,exports){
+},{"./about":5,"./components":7,"./config/app.config":9,"./config/app.constants":10,"./config/app.run":11,"./config/app.templates":12,"./contact":14,"./filters":15,"./home":19,"./layout":22,"./services":23,"angular":3,"angular-ui-router":1}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36507,7 +36514,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var AppConstants = {
-  api: 'http://localhost:3000/api',
+  api: 'http://jsonplaceholder.typicode.com/',
   appName: 'MyApp'
 };
 
@@ -36546,10 +36553,9 @@ exports.default = AppRun;
 "use strict";
 
 angular.module("templates", []).run(["$templateCache", function ($templateCache) {
-  $templateCache.put("index.html", "<!DOCTYPE html>\r\n<html>\r\n\r\n<head>\r\n    <meta charset=\"utf-8\">\r\n    <title ng-bind=\"pageTitle\"></title>\r\n    <link rel=\"stylesheet\" href=\"css/main.css\">\r\n</head>\r\n\r\n<body>    \r\n  <div ui-view></div>\r\n  <script src=\"main.js\"></script>\r\n</body>\r\n</html>\r\n");
   $templateCache.put("about/about.html", "<div class=\"well\">\n  <h1>About Me</h1>\n  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo enim amet cum necessitatibus velit tempore pariatur iure excepturi in doloribus ea iusto, omnis voluptatem. Officiis ducimus, modi laboriosam debitis pariatur.</p>\n</div>");
   $templateCache.put("contact/contact.html", "<div class=\"callout callout-success\">\n    <h4>I am  kooll</h4>\n    <p><strong>Heads up!</strong> This copy is a work in progress.</p>\n</div>\n<div class=\"card\">\n    <div class=\"card-header bg-warning\">\n        Featured\n    </div>\n    <div class=\"card-block\">\n        <h4 class=\"card-title\">Special title treatment</h4>\n        <p class=\"card-text\">With supporting text below as a natural lead-in to additional content.</p>\n        <a href=\"#\" class=\"btn btn-primary\">Go somewhere</a>\n    </div>\n</div>");
-  $templateCache.put("home/home.html", "<h1>My Home <i class=\"ti-star\"></i></h1>\r\n\r\n<img src=\"images/me.png\" alt=\"Me\" class=\"text-sm-center\">");
+  $templateCache.put("home/home.html", "<h1>{{\'My Home\' | upper}} <i class=\"ti-star\"></i></h1>\r\n\r\n<img src=\"images/me.png\" alt=\"Me\" class=\"text-sm-center\">\r\n\r\n<p ng-bind=\"::$ctrl.appName\"></p>\r\n\r\n<h1>Users List</h1>\r\n<table class=\"table table-bordered\">\r\n	<thead>\r\n		<tr>\r\n			<th>Name</th>\r\n			<th>Email</th>\r\n			<th>Phone</th>\r\n			<th>Website</th>\r\n		</tr>\r\n	</thead>\r\n	<tbody>\r\n		<tr ng-repeat=\"user in ::$ctrl.users\">\r\n			<td ng-bind=\"user.name\"></td>\r\n			<td ng-bind=\"user.email\"></td>\r\n			<td ng-bind=\"user.phone\"></td>\r\n			<td ng-bind=\"user.website\"></td>\r\n		</tr>\r\n	</tbody>\r\n</table>");
   $templateCache.put("layout/app-view.html", "<app-header></app-header>\n<div id=\"wrapper\">\n    <sidebar></sidebar> \n    <div class=\"content\">\n    	<div ui-view></div>\n        <app-footer></app-footer>\n    </div>\n</div>\n\n");
   $templateCache.put("layout/footer.html", "<footer>\n    <div class=\"container\">\n        <a class=\"logo-font\" ui-sref=\"app.home\" ng-bind=\"::$ctrl.appName | lowercase\"></a>\n        <span class=\"attribution\">\n      &copy; {{::$ctrl.date | date:\'yyyy\'}}.\n      An UI project from <a href=\"https://github.com/hesing\">Hemant</a>.\n      Code licensed under MIT.\n    </span>\n    </div>\n</footer>\n");
   $templateCache.put("layout/header.html", "<nav class=\"navbar navbar-dark bg-primary navbar-fixed-top\">\n    <a class=\"navbar-brand\" ui-sref=\"app.home\">\n        <button class=\"navbar-toggler\" type=\"button\">\n            &#9776;\n        </button>\n        NG Demo\n    </a>\n    <ul class=\"nav navbar-nav pull-sm-right\">\n        <li class=\"nav-item\" ui-sref-active=\"active\">\n            <a class=\"nav-link\" ui-sref=\"app.about\">About</a>\n        </li>\n        <li class=\"nav-item\" ui-sref-active=\"active\">\n            <a class=\"nav-link\" ui-sref=\"app.contact\">Contact</a>\n        </li>\n        \n    </ul>\n</nav>");
@@ -36603,6 +36609,51 @@ exports.default = contactModule;
 },{"./contact.config":13,"angular":3}],15:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _angular = require('angular');
+
+var _angular2 = _interopRequireDefault(_angular);
+
+var _textFilters = require('./text-filters');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Create the home module where our functionality can attach to
+var filterModule = _angular2.default.module('app.filters', []);
+
+// Filters
+
+filterModule.filter('upper', _textFilters.UpperFilter);
+filterModule.filter('lower', _textFilters.LowerFilter);
+
+exports.default = filterModule;
+
+},{"./text-filters":16,"angular":3}],16:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.UpperFilter = UpperFilter;
+exports.LowerFilter = LowerFilter;
+function UpperFilter() {
+	return function (input) {
+		return input.toUpperCase();
+	};
+}
+
+function LowerFilter() {
+	return function (input) {
+		return input.toLowerCase();
+	};
+}
+
+},{}],17:[function(require,module,exports){
+'use strict';
+
 HomeConfig.$inject = ["$stateProvider"];
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -36621,7 +36672,7 @@ function HomeConfig($stateProvider) {
 
 exports.default = HomeConfig;
 
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36630,18 +36681,23 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var HomeCtrl = function HomeCtrl(AppConstants) {
+var HomeCtrl = function HomeCtrl(AppConstants, User) {
   'ngInject';
+
+  var _this = this;
 
   _classCallCheck(this, HomeCtrl);
 
   this.appName = AppConstants.appName;
+  User.get().then(function (res) {
+    return _this.users = res;
+  });
 };
-HomeCtrl.$inject = ["AppConstants"];
+HomeCtrl.$inject = ["AppConstants", "User"];
 
 exports.default = HomeCtrl;
 
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36675,7 +36731,7 @@ homeModule.controller('HomeCtrl', _home4.default);
 
 exports.default = homeModule;
 
-},{"./home.config":15,"./home.controller":16,"angular":3}],18:[function(require,module,exports){
+},{"./home.config":17,"./home.controller":18,"angular":3}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36703,7 +36759,7 @@ var AppFooter = {
 
 exports.default = AppFooter;
 
-},{}],19:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36728,7 +36784,7 @@ var AppHeader = {
 
 exports.default = AppHeader;
 
-},{}],20:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36760,4 +36816,72 @@ layoutModule.component('appFooter', _footer2.default);
 
 exports.default = layoutModule;
 
-},{"./footer.component":18,"./header.component":19,"angular":3}]},{},[6]);
+},{"./footer.component":20,"./header.component":21,"angular":3}],23:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _angular = require('angular');
+
+var _angular2 = _interopRequireDefault(_angular);
+
+var _user = require('./user.service');
+
+var _user2 = _interopRequireDefault(_user);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Create the home module where our functionality can attach to
+var servicesModule = _angular2.default.module('app.services', []);
+
+// Services
+
+servicesModule.service('User', _user2.default);
+
+exports.default = servicesModule;
+
+},{"./user.service":24,"angular":3}],24:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var User = function () {
+    User.$inject = ["AppConstants", "$http"];
+    function User(AppConstants, $http) {
+        'ngInject';
+
+        _classCallCheck(this, User);
+
+        this._AppConstants = AppConstants;
+        this._$http = $http;
+    }
+
+    // Retrieve a user's data
+
+
+    _createClass(User, [{
+        key: 'get',
+        value: function get() {
+            return this._$http({
+                url: this._AppConstants.api + 'users',
+                method: 'GET'
+            }).then(function (res) {
+                return res.data;
+            });
+        }
+    }]);
+
+    return User;
+}();
+
+exports.default = User;
+
+},{}]},{},[6]);

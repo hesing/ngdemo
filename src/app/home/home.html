@@ -1,3 +1,25 @@
-<h1>My Home <i class="ti-star"></i></h1>
+<h1>{{'My Home' | upper}} <i class="ti-star"></i></h1>
 
 <img src="images/me.png" alt="Me" class="text-sm-center">
+
+<p ng-bind="::$ctrl.appName"></p>
+
+<h1>Users List</h1>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Email</th>
+			<th>Phone</th>
+			<th>Website</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="user in ::$ctrl.users">
+			<td ng-bind="user.name"></td>
+			<td ng-bind="user.email"></td>
+			<td ng-bind="user.phone"></td>
+			<td ng-bind="user.website"></td>
+		</tr>
+	</tbody>
+</table>

@@ -1,5 +1,5 @@
 const AppConstants = {
-  api: 'http://localhost:3000/api',
+  api: 'http://jsonplaceholder.typicode.com/',
   appName: 'MyApp',
 };
 
