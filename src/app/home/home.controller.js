@@ -3,7 +3,12 @@ class HomeCtrl {
     'ngInject';
 
     this.appName = AppConstants.appName;
-    User.get().then(res => this.users = res);
+    this._User = User;
+    // User.get().then(res => this.users = res);
+  }
+
+  getUsers(){
+  	this._User.get().then(res => this.users = res);
   }
 
 }
