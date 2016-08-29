@@ -8,5 +8,8 @@ let componentsModule = angular.module('app.components', []);
 import Sidebar from './sidebar/sidebar.component';
 componentsModule.component('sidebar', Sidebar);
 
+// Directives
+import Colorme from './colorme.directive';
+componentsModule.directive('colorme', Colorme);
 
 export default componentsModule;

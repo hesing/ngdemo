@@ -36420,7 +36420,26 @@ _angular2.default.bootstrap(document, ['app'], {
   strictDi: true
 });
 
-},{"./about":5,"./components":7,"./config/app.config":9,"./config/app.constants":10,"./config/app.run":11,"./config/app.templates":12,"./contact":14,"./filters":15,"./home":19,"./layout":22,"./services":23,"angular":3,"angular-ui-router":1}],7:[function(require,module,exports){
+},{"./about":5,"./components":8,"./config/app.config":10,"./config/app.constants":11,"./config/app.run":12,"./config/app.templates":13,"./contact":15,"./filters":16,"./home":20,"./layout":23,"./services":24,"angular":3,"angular-ui-router":1}],7:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+function Colorme() {
+  'ngInject';
+
+  return {
+    restrict: 'A',
+    link: function link(scope, element, attrs) {
+      element.addClass('bg-warning');
+    }
+  };
+}
+
+exports.default = Colorme;
+
+},{}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36435,6 +36454,10 @@ var _sidebar = require('./sidebar/sidebar.component');
 
 var _sidebar2 = _interopRequireDefault(_sidebar);
 
+var _colorme = require('./colorme.directive');
+
+var _colorme2 = _interopRequireDefault(_colorme);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Create the home module where our functionality can attach to
@@ -36444,9 +36467,13 @@ var componentsModule = _angular2.default.module('app.components', []);
 
 componentsModule.component('sidebar', _sidebar2.default);
 
+// Directives
+
+componentsModule.directive('colorme', _colorme2.default);
+
 exports.default = componentsModule;
 
-},{"./sidebar/sidebar.component":8,"angular":3}],8:[function(require,module,exports){
+},{"./colorme.directive":7,"./sidebar/sidebar.component":9,"angular":3}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36482,7 +36509,7 @@ var Sidebar = {
 
 exports.default = Sidebar;
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 AppConfig.$inject = ["$stateProvider", "$urlRouterProvider"];
@@ -36507,7 +36534,7 @@ function AppConfig($stateProvider, $urlRouterProvider) {
 
 exports.default = AppConfig;
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36520,7 +36547,7 @@ var AppConstants = {
 
 exports.default = AppConstants;
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 AppRun.$inject = ["AppConstants", "$rootScope"];
@@ -36549,20 +36576,20 @@ function AppRun(AppConstants, $rootScope) {
 
 exports.default = AppRun;
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 
 angular.module("templates", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("about/about.html", "<div class=\"well\">\n  <h1>About Me</h1>\n  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo enim amet cum necessitatibus velit tempore pariatur iure excepturi in doloribus ea iusto, omnis voluptatem. Officiis ducimus, modi laboriosam debitis pariatur.</p>\n</div>");
   $templateCache.put("contact/contact.html", "<div class=\"callout callout-success\">\n    <h4>I am  kooll</h4>\n    <p><strong>Heads up!</strong> This copy is a work in progress.</p>\n</div>\n<div class=\"card\">\n    <div class=\"card-header bg-warning\">\n        Featured\n    </div>\n    <div class=\"card-block\">\n        <h4 class=\"card-title\">Special title treatment</h4>\n        <p class=\"card-text\">With supporting text below as a natural lead-in to additional content.</p>\n        <a href=\"#\" class=\"btn btn-primary\">Go somewhere</a>\n    </div>\n</div>");
-  $templateCache.put("home/home.html", "<h1>{{\'My Home\' | upper}} <i class=\"ti-star\"></i></h1>\r\n\r\n<img src=\"images/me.png\" alt=\"Me\" class=\"text-sm-center\">\r\n\r\n<p ng-bind=\"::$ctrl.appName\"></p>\r\n\r\n<h1>Users List</h1>\r\n<table class=\"table table-bordered\">\r\n	<thead>\r\n		<tr>\r\n			<th>Name</th>\r\n			<th>Email</th>\r\n			<th>Phone</th>\r\n			<th>Website</th>\r\n		</tr>\r\n	</thead>\r\n	<tbody>\r\n		<tr ng-repeat=\"user in ::$ctrl.users\">\r\n			<td ng-bind=\"user.name\"></td>\r\n			<td ng-bind=\"user.email\"></td>\r\n			<td ng-bind=\"user.phone\"></td>\r\n			<td ng-bind=\"user.website\"></td>\r\n		</tr>\r\n	</tbody>\r\n</table>");
+  $templateCache.put("home/home.html", "<h1>{{\'My Home\' | upper}} <i class=\"ti-star\"></i></h1>\r\n\r\n<img src=\"images/me.png\" alt=\"Me\" class=\"text-sm-center\">\r\n\r\n<p ng-bind=\"::$ctrl.appName\"></p>\r\n\r\n<h1>Users List</h1>\r\n<table class=\"table table-bordered\">\r\n	<thead>\r\n		<tr colorme>\r\n			<th>Name</th>\r\n			<th>Email</th>\r\n			<th>Phone</th>\r\n			<th>Website</th>\r\n		</tr>\r\n	</thead>\r\n	<tbody>\r\n		<tr ng-repeat=\"user in ::$ctrl.users\">\r\n			<td ng-bind=\"user.name\"></td>\r\n			<td ng-bind=\"user.email\"></td>\r\n			<td ng-bind=\"user.phone\"></td>\r\n			<td ng-bind=\"user.website\"></td>\r\n		</tr>\r\n	</tbody>\r\n</table>");
   $templateCache.put("layout/app-view.html", "<app-header></app-header>\n<div id=\"wrapper\">\n    <sidebar></sidebar> \n    <div class=\"content\">\n    	<div ui-view></div>\n        <app-footer></app-footer>\n    </div>\n</div>\n\n");
   $templateCache.put("layout/footer.html", "<footer>\n    <div class=\"container\">\n        <a class=\"logo-font\" ui-sref=\"app.home\" ng-bind=\"::$ctrl.appName | lowercase\"></a>\n        <span class=\"attribution\">\n      &copy; {{::$ctrl.date | date:\'yyyy\'}}.\n      An UI project from <a href=\"https://github.com/hesing\">Hemant</a>.\n      Code licensed under MIT.\n    </span>\n    </div>\n</footer>\n");
   $templateCache.put("layout/header.html", "<nav class=\"navbar navbar-dark bg-primary navbar-fixed-top\">\n    <a class=\"navbar-brand\" ui-sref=\"app.home\">\n        <button class=\"navbar-toggler\" type=\"button\">\n            &#9776;\n        </button>\n        NG Demo\n    </a>\n    <ul class=\"nav navbar-nav pull-sm-right\">\n        <li class=\"nav-item\" ui-sref-active=\"active\">\n            <a class=\"nav-link\" ui-sref=\"app.about\">About</a>\n        </li>\n        <li class=\"nav-item\" ui-sref-active=\"active\">\n            <a class=\"nav-link\" ui-sref=\"app.contact\">Contact</a>\n        </li>\n        \n    </ul>\n</nav>");
   $templateCache.put("components/sidebar/sidebar.html", "<aside class=\"sidebar left sidebar-menu-bg sidebar-xs toggled\">\r\n    <div class=\"sidebar-inner\">\r\n        <ul class=\"menu\">\r\n            <li ng-click=\"$ctrl.toggleItem()\">\r\n                <a ui-sref=\"app.home\">Home</a>\r\n            </li>\r\n            <li ng-click=\"$ctrl.toggleItem()\">\r\n                <a ui-sref=\"app.about\">About</a>\r\n            </li>\r\n            <li ng-click=\"$ctrl.toggleItem()\">\r\n                <a ui-sref=\"app.contact\">Contact</a>\r\n            </li>\r\n            <li class=\"sub-menu\">\r\n                <a href=\"\" ng-click=\"$ctrl.toggleItem()\">\r\n                    <i class=\"ti-angle-right menu-arrow\"></i> Headers</a>\r\n                <ul>\r\n                    <li><a data-ng-click=\"mactrl.sidebarStat($event)\" data-ui-sref=\"headers.textual-menu\" data-ui-sref-active=\"active\" class=\"active\" href=\"#/headers/textual-menu\">Textual menu</a></li>\r\n                    <li><a data-ng-click=\"mactrl.sidebarStat($event)\" data-ui-sref=\"headers.image-logo\" data-ui-sref-active=\"active\" href=\"#/headers/image-logo\">Image logo</a></li>\r\n                    <li><a data-ng-click=\"mactrl.sidebarStat($event)\" data-ui-sref=\"headers.mainmenu-on-top\" data-ui-sref-active=\"active\" href=\"#/headers/mainmenu-on-top\">Mainmenu on top</a></li>\r\n                </ul>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n</aside>");
 }]);
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 ContactConfig.$inject = ["$stateProvider"];
@@ -36581,7 +36608,7 @@ function ContactConfig($stateProvider) {
 
 exports.default = ContactConfig;
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36606,7 +36633,7 @@ contactModule.config(_contact2.default);
 
 exports.default = contactModule;
 
-},{"./contact.config":13,"angular":3}],15:[function(require,module,exports){
+},{"./contact.config":14,"angular":3}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36631,7 +36658,7 @@ filterModule.filter('lower', _textFilters.LowerFilter);
 
 exports.default = filterModule;
 
-},{"./text-filters":16,"angular":3}],16:[function(require,module,exports){
+},{"./text-filters":17,"angular":3}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36651,7 +36678,7 @@ function LowerFilter() {
 	};
 }
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 HomeConfig.$inject = ["$stateProvider"];
@@ -36672,7 +36699,7 @@ function HomeConfig($stateProvider) {
 
 exports.default = HomeConfig;
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36697,7 +36724,7 @@ HomeCtrl.$inject = ["AppConstants", "User"];
 
 exports.default = HomeCtrl;
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36731,7 +36758,7 @@ homeModule.controller('HomeCtrl', _home4.default);
 
 exports.default = homeModule;
 
-},{"./home.config":17,"./home.controller":18,"angular":3}],20:[function(require,module,exports){
+},{"./home.config":18,"./home.controller":19,"angular":3}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36759,7 +36786,7 @@ var AppFooter = {
 
 exports.default = AppFooter;
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36784,7 +36811,7 @@ var AppHeader = {
 
 exports.default = AppHeader;
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36816,7 +36843,7 @@ layoutModule.component('appFooter', _footer2.default);
 
 exports.default = layoutModule;
 
-},{"./footer.component":20,"./header.component":21,"angular":3}],23:[function(require,module,exports){
+},{"./footer.component":21,"./header.component":22,"angular":3}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36842,7 +36869,7 @@ servicesModule.service('User', _user2.default);
 
 exports.default = servicesModule;
 
-},{"./user.service":24,"angular":3}],24:[function(require,module,exports){
+},{"./user.service":25,"angular":3}],25:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
