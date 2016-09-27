@@ -1,0 +1,12 @@
+<span class="logo" ng-click="categoriesListCtrl.onCategorySelected(null)">
+	<img class="logo" src="assets/img/preview_royal-enfield.jpg">
+</span>
+<ul class="list-group">
+	<li class="list-group-item" ng-class="{'active':categoriesListCtrl.isCurrentCategory(category)}"
+		ng-repeat="category in categoriesListCtrl.categories">
+		<category-item
+			category="category"
+			selected="categoriesListCtrl.onCategorySelected(category)">
+		</category-item>
+	</li>
+</ul>
